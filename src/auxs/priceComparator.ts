@@ -4,7 +4,7 @@ import { getPriceSonic } from './sonicPrice.js';
 export async function getPrices() {
   try {
     console.log('\n' + '='.repeat(60));
-    console.log('>> INICIANDO OBTENCIÓN DE PRECIOS EN AMBAS REDES');
+    console.log('>> STARTING PRICE RETRIEVAL ON BOTH NETWORKS');
     console.log('='.repeat(60));
     console.log('');
     
@@ -13,14 +13,14 @@ export async function getPrices() {
       getPriceSonic()
     ]);
     
-    console.log('\n[OK] Precios obtenidos exitosamente\n');
+    console.log('\n[OK] Prices obtained successfully\n');
     
     return {
       avalanche: avalanchePrice,
       sonic: sonicPrice
     };
   } catch (error) {
-    console.error('\n Error obteniendo precios:', error);
+    console.error('\n Error obtaining prices:', error);
     throw error;
   }
 }
@@ -30,11 +30,11 @@ export async function comparePrices() {
     const prices = await getPrices();
     
     console.log('\n' + '='.repeat(60));
-    console.log('*** COMPARACIÓN DE PRECIOS ENTRE REDES ***');
+    console.log('*** PRICE COMPARISON BETWEEN NETWORKS ***');
     console.log('='.repeat(60));
     console.log('');
     
-    console.log('*** PRECIOS ACTUALES ***');
+    console.log('*** CURRENT PRICES ***');
     console.log(`   [A] Avalanche: $${prices.avalanche.toFixed(6)}`);
     console.log(`   [S] Sonic:     $${prices.sonic.toFixed(6)}`);
     console.log('');
@@ -42,44 +42,44 @@ export async function comparePrices() {
     const difference = Math.abs(prices.avalanche - prices.sonic);
     const percentageDiff = (difference / Math.min(prices.avalanche, prices.sonic)) * 100;
     
-    console.log('*** ANÁLISIS DE DIFERENCIAS ***');
-    console.log(`   [$] Diferencia absoluta: $${difference.toFixed(6)}`);
-    console.log(`   [%] Diferencia porcentual: ${percentageDiff.toFixed(2)}%`);
+    console.log('*** DIFFERENCE ANALYSIS ***');
+    console.log(`   [$] Absolute difference: $${difference.toFixed(6)}`);
+    console.log(`   [%] Percentage difference: ${percentageDiff.toFixed(2)}%`);
     console.log('');
     
-    // Determinar cuál red tiene mejor precio
-    console.log('*** MEJOR PRECIO ***');
+    // Determine which network has the best price
+    console.log('*** BEST PRICE ***');
     if (prices.avalanche < prices.sonic) {
-      console.log('   [+] Avalanche tiene el mejor precio');
+      console.log('   [+] Avalanche has the best price');
     } else if (prices.sonic < prices.avalanche) {
-      console.log('   [+] Sonic tiene el mejor precio');
+      console.log('   [+] Sonic has the best price');
     } else {
-      console.log('   [=] Precios iguales en ambas redes');
+      console.log('   [=] Equal prices on both networks');
     }
     console.log('');
     
     const ARBITRAGE_THRESHOLD = 3; 
-    console.log('*** OPORTUNIDAD DE ARBITRAJE ***');
+    console.log('*** ARBITRAGE OPPORTUNITY ***');
     if (percentageDiff > ARBITRAGE_THRESHOLD) {
-      console.log(`   [!] ¡OPORTUNIDAD DETECTADA! (${percentageDiff.toFixed(2)}%)`);
+      console.log(`   [!] OPPORTUNITY DETECTED! (${percentageDiff.toFixed(2)}%)`);
       console.log('');
       
       if (prices.avalanche < prices.sonic) {
-        console.log('   [*] ESTRATEGIA RECOMENDADA:');
-        console.log('      [<] Comprar en Avalanche');
-        console.log('      [>] Vender en Sonic');
+        console.log('   [*] RECOMMENDED STRATEGY:');
+        console.log('      [<] Buy on Avalanche');
+        console.log('      [>] Sell on Sonic');
       } else {
-        console.log('   [*] ESTRATEGIA RECOMENDADA:');
-        console.log('      [<] Comprar en Sonic');
-        console.log('      [>] Vender en Avalanche');
+        console.log('   [*] RECOMMENDED STRATEGY:');
+        console.log('      [<] Buy on Sonic');
+        console.log('      [>] Sell on Avalanche');
       }
     } else {
-      console.log(`   [i] No hay oportunidad significativa (${percentageDiff.toFixed(2)}% < ${ARBITRAGE_THRESHOLD}%)`);
+      console.log(`   [i] No significant opportunity (${percentageDiff.toFixed(2)}% < ${ARBITRAGE_THRESHOLD}%)`);
     }
     
     console.log('');
     console.log('='.repeat(60));
-    console.log('[OK] COMPARACIÓN COMPLETADA');
+    console.log('[OK] COMPARISON COMPLETED');
     console.log('='.repeat(60) + '\n');
     
     return {

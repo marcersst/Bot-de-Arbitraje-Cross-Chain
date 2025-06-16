@@ -6,30 +6,30 @@ import { comparePrices, monitorPrices } from './auxs/index.js';
 dotenv.config();
 
 async function initializeBot() {
-  console.log('-----Iniciando Bot de Arbitraje Cross-Chain-----');
+  console.log('-----Starting Cross-Chain Arbitrage Bot-----');
   
   try {
     const blocks = await testConnections();
      
-    console.log('----Estado de las redes:----', blocks);
+    console.log('----Network Status:----', blocks);
    
     
     await testSimpleBridge();
     
-    console.log('\n[*] Iniciando monitoreo de precios...');
+    console.log('\n[*] Starting price monitoring...');
     const priceAnalysis = await comparePrices();
     
     if (priceAnalysis.hasArbitrageOpportunity) {
-      console.log('\n[!] ¡Oportunidad de arbitraje encontrada!');
-      console.log(`[%] Diferencia de precio: ${priceAnalysis.percentageDiff.toFixed(4)}%`);
+      console.log('\n[!] Arbitrage opportunity found!');
+      console.log(`[%] Price difference: ${priceAnalysis.percentageDiff.toFixed(4)}%`);
     }
     
-    console.log('\n-----Bot inicializado exitosamente!-----');
-    console.log('Iniciando monitoreo continuo cada 10 segundos...');
+    console.log('\n-----Bot initialized successfully!-----');
+    console.log('Starting continuous monitoring every 10 seconds...');
     
     return true;
   } catch (error) {
-    console.error('Error al inicializar el bot:', error);
+    console.error('Error initializing bot:', error);
     return false;
   }
 }
@@ -44,9 +44,9 @@ async function main() {
   
   setInterval(monitorPrices, 10000);
   
-// Ejecutar Arbitraje si es posible, el threshold se calcula dinámicamente
-// basado en costos reales (swap + bridge) + 0.5% de margen de seguridad, dado que es un pool estable es muy dificil de que llegue a esa diferencia del 3%
-  // tendria que ser un redito mayor a 3%
+// Execute Arbitrage if possible, the threshold is calculated dynamically
+// based on real costs (swap + bridge) + 0.5% safety margin, given that it's a stable pool it's very difficult to reach that 3% difference
+  // it would have to be a return greater than 3%
   
 }
 

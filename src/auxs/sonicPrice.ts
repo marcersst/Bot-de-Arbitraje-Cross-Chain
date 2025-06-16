@@ -3,10 +3,10 @@ import { SONIC_ADDRESSES } from '../constanst/addresses.js';
 import { UNISWAP_V3_POOL_ABI } from '../constanst/utils/abis.js';
 import { calculatePriceFromSqrtPriceX96 } from './priceCalculator.js';
 
-// Función para obtener precio en Sonic
+// Function to get price on Sonic
 export async function getPriceSonic(): Promise<number> {
   try {
-    console.log('----Obteniendo precio USDT/USDC en Sonic---  ');
+    console.log('----Getting USDT/USDC price on Sonic---  ');
     
     const poolData = await sonicClient.readContract({
       address: SONIC_ADDRESSES.POOLS.USDT_USDC as `0x${string}`,
@@ -15,7 +15,7 @@ export async function getPriceSonic(): Promise<number> {
     });
     
     const price = calculatePriceFromSqrtPriceX96(poolData[0]);
-    console.log(` ----Precio Sonic: ${price.toFixed(6)}----`);
+    console.log(` ----Sonic Price: ${price.toFixed(6)}----`);
     
     return price;
   } catch (error) {

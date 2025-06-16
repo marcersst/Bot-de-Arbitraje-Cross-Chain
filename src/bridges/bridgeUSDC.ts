@@ -10,7 +10,7 @@ export async function getNetUSDCAfterBridge(
   walletAddress: Address
 ): Promise<number> {
   try {
-    // Obtener cotización para 10 USDC
+    // Get quote for 10 USDC
     const quoteResult = await getStargateFeesUSDC(
       fromChain,
       toChain,

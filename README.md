@@ -1,286 +1,288 @@
-# Bot de Arbitraje Cross-Chain: Sonic ↔ Avalanche
+# Cross-Chain Arbitrage Bot: Sonic ↔ Avalanche
 
-## ⏱️ **Desarrollo Completado en 6 Horas**
+## ⏱️ **Development Completed in 6 Hours**
 
-Este proyecto fue desarrollado completamente en **6 horas** como demostración técnica de un sistema de arbitraje cross-chain entre Sonic y Avalanche, enfocándose en USDC/USDT.
+This project was completely developed in **6 hours** as a technical demonstration of a cross-chain arbitrage system between Sonic and Avalanche, focusing on USDC/USDT.
 
-## 📋 Descripción
+## 📋 Description
 
-Este proyecto es un bot de arbitraje automatizado que monitorea diferencias de precios de tokens entre las redes **Sonic** y **Avalanche**. El bot calcula dinámicamente los costos operativos y determina oportunidades de arbitraje rentables.
+This project is an automated arbitrage bot that monitors token price differences between **Sonic** and **Avalanche** networks. The bot dynamically calculates operational costs and determines profitable arbitrage opportunities. **The bot continuously analyzes market conditions every 10 seconds** to identify real-time arbitrage opportunities.
 
-## 🚫 **Decisión: No Implementar Swaps Reales**
+## 🚫 **Decision: Not Implementing Real Swaps**
 
-### **💡 Razones Técnicas y Económicas**
+### **💡 Technical and Economic Reasons**
 
-**1. Análisis de Rentabilidad Negativa**
-- Los costos operativos (0.7% - 2%) superan consistentemente las oportunidades de arbitraje
-- Sin bridge directo USDT, se requieren múltiples saltos costosos
-- El margen de ganancia es insuficiente para justificar el riesgo
+**1. Negative Profitability Analysis**
+- Operational costs (0.7% - 2%) consistently exceed arbitrage opportunities
+- Without direct USDT bridge, multiple costly hops are required
+- Profit margin is insufficient to justify the risk
 
-**2. Limitaciones de Infraestructura**
-- **CCIP no disponible** entre Sonic y Avalanche
-- **Solo USDC tiene bridge directo** (Stargate)
-- **Liquidez limitada** en pools de algunas redes
+**2. Infrastructure Limitations**
+- **CCIP not available** between Sonic and Avalanche
+- **Only USDC has direct bridge** (Stargate)
+- **Limited liquidity** in pools on some networks
 
-**3. Enfoque en Demostración Técnica**
-- **Simulación completa** es más segura para demostrar capacidades
-- **Cálculos precisos** sin riesgo de pérdida de capital
-- **Análisis end-to-end** sin exposición financiera
+**3. Focus on Technical Demonstration**
+- **Complete simulation** is safer to demonstrate capabilities
+- **Precise calculations** without risk of capital loss
+- **End-to-end analysis** without financial exposure
 
-**4. Valor Educativo Maximizado**
-- Demuestra **comprensión real** de los desafíos DeFi
-- Muestra **pensamiento crítico** sobre viabilidad económica
-- Proporciona **base sólida** para futuras implementaciones
+**4. Maximized Educational Value**
+- Demonstrates **real understanding** of DeFi challenges
+- Shows **critical thinking** about economic viability
+- Provides **solid foundation** for future implementations
 
-## 🚨 **Limitaciones de Rentabilidad**
+## 🚨 **Profitability Limitations**
 
-### ❌ **¿Por qué no es rentable actualmente?**
+### ❌ **Why is it not currently profitable?**
 
-1. **Ausencia de puente USDT directo**: No existe un puente directo para USDT entre Sonic y Avalanche
-2. **Múltiples saltos de bridge**: Se requieren al menos 2-3 bridges para completar el arbitraje
-3. **Solo USDC disponible**: El único token estable con bridge directo es USDC
-4. **Costos acumulativos**: Cada bridge adicional suma fees significativos
-5. **Sin CCIP disponible**: Chainlink CCIP no está disponible entre estas redes
+1. **Absence of direct USDT bridge**: No direct bridge exists for USDT between Sonic and Avalanche
+2. **Multiple bridge hops**: At least 2-3 bridges are required to complete arbitrage
+3. **Only USDC available**: The only stable token with direct bridge is USDC
+4. **Cumulative costs**: Each additional bridge adds significant fees
+5. **No CCIP available**: Chainlink CCIP is not available between these networks
 
-### 💰 **Estructura de Costos**
+### 💰 **Cost Structure**
 
 ```
-Costo Total = Swap Fee (Red Origen) + Bridge Fee + Swap Fee (Red Destino)
-Threshold Mínimo = Costo Total + 0.5% (margen de seguridad)
+Total Cost = Swap Fee (Origin Network) + Bridge Fee + Swap Fee (Destination Network)
+Minimum Threshold = Total Cost + 0.5% (safety margin)
 ```
 
-**Ejemplo típico de costos:**
-- Swap Sonic: ~0.3% - 0.5%
-- Bridge USDC (Stargate): ~0.1% - 0.3%
-- Swap Avalanche: ~0.3% - 0.5%
+**Typical cost example:**
+- Sonic Swap: ~0.3% - 0.5%
+- USDC Bridge (Stargate): ~0.1% - 0.3%
+- Avalanche Swap: ~0.3% - 0.5%
 
 
-Para ser rentable, la diferencia de precios debe superar estos costos + margen.
+To be profitable, the price difference must exceed these costs + margin.
 
-##  **Tecnologías Utilizadas**
+## **Technologies Used**
 
 ### **Blockchain & Web3**
-- **[Viem](https://viem.sh/)**: Cliente TypeScript para interactuar con blockchains EVM
-- **Uniswap V3**: Para obtener precios y calcular fees de swap
-- **Stargate Protocol**: Bridge para transferencias USDC entre  las dos cadenas
+- **[Viem](https://viem.sh/)**: TypeScript client for interacting with EVM blockchains
+- **Uniswap V3**: For price fetching and swap fee calculations
+- **Stargate Protocol**: Bridge for USDC transfers between the two chains
 
-### **Desarrollo**
-- **TypeScript**: Lenguaje principal del proyecto
-- **Node.js**: Runtime de JavaScript
-- **ts-node**: Ejecución directa de TypeScript
-- **dotenv**: Gestión de variables de entorno
+### **Development**
+- **TypeScript**: Main project language
+- **Node.js**: JavaScript runtime
+- **ts-node**: Direct TypeScript execution
+- **dotenv**: Environment variable management
 
-### **Redes Blockchain**
-- **Sonic Network**: Red L2 de alta velocidad
-- **Avalanche C-Chain**: Red compatible con EVM
+### **Blockchain Networks**
+- **Sonic Network**: High-speed L2 network
+- **Avalanche C-Chain**: EVM-compatible network
 
-## **Arquitectura del Proyecto**
+## **Project Architecture**
 
 ```
 src/
-├── auxs/                    # Utilidades auxiliares
-│   ├── avalanchePrice.ts    # Obtención de precios en Avalanche
-│   ├── sonicPrice.ts        # Obtención de precios en Sonic
-│   ├── priceComparator.ts   # Comparación y análisis de precios
-│   └── monitor.ts           # Monitoreo continuo
-├── bridges/                 # Lógica de bridges
-│   ├── bridgeUSDC.ts        # Bridge USDC via Stargate
-│   ├── stargateQuotes.ts    # Cotizaciones de Stargate
-│   └── visuls.ts            # Visualización de costos
-├── constanst/               # Constantes y configuración
-│   ├── addresses.ts         # Direcciones de contratos
-│   ├── chains.ts            # Configuración de redes
-│   ├── clients.ts           # Clientes blockchain
-│   └── utils/               # Utilidades
-└── main.ts                  # Punto de entrada principal
+├── auxs/                    # Auxiliary utilities
+│   ├── avalanchePrice.ts    # Price fetching on Avalanche
+│   ├── sonicPrice.ts        # Price fetching on Sonic
+│   ├── priceComparator.ts   # Price comparison and analysis
+│   └── monitor.ts           # Continuous monitoring
+├── bridges/                 # Bridge logic
+│   ├── bridgeUSDC.ts        # USDC bridge via Stargate
+│   ├── stargateQuotes.ts    # Stargate quotes
+│   └── visuls.ts            # Cost visualization
+├── constanst/               # Constants and configuration
+│   ├── addresses.ts         # Contract addresses
+│   ├── chains.ts            # Network configuration
+│   ├── clients.ts           # Blockchain clients
+│   └── utils/               # Utilities
+└── main.ts                  # Main entry point
 ```
 
-## 🔧 **Instalación y Configuración**
+## 🔧 **Installation and Configuration**
 
-### **Prerrequisitos**
+### **Prerequisites**
 - Node.js v18+
-- npm o yarn
-- Archivo `.env` con configuración
+- npm or yarn
+- `.env` file with configuration
 
-### **Instalación**
+### **Installation**
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone <repository-url>
 cd BotTranding
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Configurar variables de entorno
+# Configure environment variables
 cp .env.example .env
-# Editar .env con tus configuraciones
+# Edit .env with your configurations
 ```
 
-### **Variables de Entorno**
+### **Environment Variables**
 
 ```env
 # RPC URLs
 AVALANCHE_RPC_URL=https://api.avax.network/ext/bc/C/rpc
 SONIC_RPC_URL=https://rpc.soniclabs.com
 
-# Direcciones de contratos (opcional para monitoreo)
+# Contract addresses (optional for monitoring)
 PRIVATE_KEY=your_private_key_here
 ```
 
-## 🚀 **Uso**
+## 🚀 **Usage**
 
-### **Comandos Disponibles**
+### **Available Commands**
 
 ```bash
-# Iniciar monitoreo completo
+# Start complete monitoring (analyzes every 10 seconds)
 npm run start
 
 ```
 
-### **Ejemplo de Salida**
+### **Output Example**
 
 ```
-*** CALCULANDO COSTOS DE ARBITRAJE ***
-   [C] Costo SONIC → AVALANCHE: 1.15%
-   [C] Costo AVALANCHE → SONIC: 1.08%
-   [T] Threshold dinámico: 1.58% (costo mínimo + 0.5%)
+*** CALCULATING ARBITRAGE COSTS ***
+   [C] Cost SONIC → AVALANCHE: 1.15%
+   [C] Cost AVALANCHE → SONIC: 1.08%
+   [T] Dynamic threshold: 1.58% (minimum cost + 0.5%)
 
-*** OPORTUNIDAD DE ARBITRAJE ***
-   [i] No hay oportunidad significativa (0.85% < 1.58%)
+*** ARBITRAGE OPPORTUNITY ***
+   [i] No significant opportunity (0.85% < 1.58%)
 ```
 
-## 📊 **Funcionalidades Principales**
+## 📊 **Main Features**
 
-### **1. Monitoreo de Precios**
-- Obtención de precios en tiempo real de ambas redes
-- Cálculo de diferencias absolutas y porcentuales
-- Identificación de la red con mejor precio
+### **1. Price Monitoring**
+- Real-time price fetching from both networks
+- Calculation of absolute and percentage differences
+- Identification of the network with the best price
+- **Continuous analysis every 10 seconds**
 
-### **2. Cálculo Dinámico de Costos**
-- Estimación de fees de swap en ambas redes
-- Cálculo de costos de bridge USDC
-- Threshold dinámico basado en costos reales
+### **2. Dynamic Cost Calculation**
+- Swap fee estimation on both networks
+- USDC bridge cost calculation
+- Dynamic threshold based on real costs
 
-### **3. Análisis de Rentabilidad**
-- Comparación automática: diferencia vs costos
-- Margen de seguridad del 0.5%
-- Recomendaciones de estrategia
+### **3. Profitability Analysis**
+- Automatic comparison: difference vs costs
+- 0.5% safety margin
+- Strategy recommendations
 
-### **4. Visualización de Costos**
-- Desglose detallado de todos los fees
-- Cálculo del monto final después de costos
-- Porcentajes de costo total
+### **4. Cost Visualization**
+- Detailed breakdown of all fees
+- Final amount calculation after costs
+- Total cost percentages
 
-## ⚠️ **Limitaciones Técnicas**
+## ⚠️ **Technical Limitations**
 
 ### **Bridge Constraints**
-- **Solo USDC**: Único token estable con bridge directo
-- **Stargate Protocol**: Dependencia de un solo proveedor
-- **Fees variables**: Los costos cambian según liquidez
+- **USDC only**: Only stable token with direct bridge
+- **Stargate Protocol**: Dependency on a single provider
+- **Variable fees**: Costs change according to liquidity
 
 ### **Network Limitations**
-- **Sin CCIP**: Chainlink Cross-Chain no disponible
-- **Liquidez limitada**: Pools pequeños en algunas redes
-- **Slippage**: Impacto en precios con volúmenes grandes
+- **No CCIP**: Chainlink Cross-Chain not available
+- **Limited liquidity**: Small pools on some networks
+- **Slippage**: Price impact with large volumes
 
-### **Precios Hardcodeados**
-- **Precios de S y AVAX**: Los precios de los tokens nativos están hardcodeados para fines de demostración visual
-- **Implementación real**: En producción, estos precios deberían obtenerse dinámicamente de los pools reales
-- **Propósito**: Se utilizaron valores fijos para simplificar la demostración y enfocarse en la lógica de arbitraje
+### **Hardcoded Prices**
+- **S and AVAX prices**: Native token prices are hardcoded for visual demonstration purposes
+- **Real implementation**: In production, these prices should be obtained dynamically from real pools
+- **Purpose**: Fixed values were used to simplify the demonstration and focus on arbitrage logic
 
-## 🔮 **Mejoras Futuras**
+## 🔮 **Future Improvements**
 
-1. **Integración de más bridges**: LayerZero, Wormhole, etc.
-2. **Soporte para más tokens**: ETH, BTC, otros stablecoins
-3. **Optimización de rutas**: Encontrar paths más eficientes
-4. **MEV Protection**: Protección contra front-running
-5. **Dashboard Web**: Interfaz gráfica para monitoreo
-
-
+1. **Integration of more bridges**: LayerZero, Wormhole, etc.
+2. **Support for more tokens**: ETH, BTC, other stablecoins
+3. **Route optimization**: Finding more efficient paths
+4. **MEV Protection**: Protection against front-running
+5. **Web Dashboard**: Graphical interface for monitoring
 
 
-## ⚡ **Conclusión**
-
-Aunque técnicamente funcional, este bot demuestra las **limitaciones económicas** del arbitraje cross-chain actual entre Sonic y Avalanche. Los costos operativos superan frecuentemente las oportunidades de ganancia, especialmente sin bridges directos eficientes.
 
 
-### **📋 Contexto del Proyecto Solicitado**
+## ⚡ **Conclusion**
 
-Este bot fue desarrollado como respuesta a un trial project que solicitaba:
-- Arbitraje USDC/USDT entre Avalanche y Sonic
-- Uso de CCIP para bridge USDC
-- Bridge optimizado para USDT
-- Monitoreo de pools CL específicos (Pharaoh/Shadow)
-- Ejecución automática cuando sea rentable
-
-### **🔄 Implementación vs Requerimientos**
-
-#### **✅ Lo que se implementó:**
-- ✅ **Monitoreo de precios**: Sistema completo de comparación entre redes
-- ✅ **Cálculo de costos**: Análisis dinámico de fees y rentabilidad
-- ✅ **Arquitectura TypeScript + Viem**: Stack tecnológico solicitado
-- ✅ **Threshold configurable**: Sistema dinámico basado en costos reales
-- ✅ **Logging detallado**: Información completa de costos y análisis
-- ✅ **Simulación end-to-end**: Cálculo completo del round-trip
-
-#### **⚠️ Adaptaciones necesarias:**
-
-**1. Bridge USDC (Stargate vs CCIP)**
-- **Solicitado**: CCIP para USDC
-- **Implementado**: Stargate Protocol
-- **Razón**: CCIP no está disponible entre Sonic y Avalanche
-- **Alternativa**: Stargate es el bridge más confiable disponible para USDC
-
-**2. Bridge USDT**
-- **Solicitado**: Bridge optimizado para USDT
-- **Realidad**: No existe bridge directo USDT entre Sonic-Avalanche
-- **Solución**: Solo USDC tiene bridge directo viable
-- **Impacto**: Esto hace el arbitraje significativamente más costoso
-
-**3. Pools Específicos**
-- **Solicitado**: Pharaoh (Avalanche) y Shadow (Sonic)
-- **Implementado**: Pools disponibles en cada red
-- **Adaptación**: Se usaron los pools con mayor liquidez disponibles
-
-### **🛠️ Decisiones Técnicas Tomadas**
-
-#### **Bridge Selection para USDT**
-**Problema**: No hay bridge directo USDT Sonic ↔ Avalanche
-
-**Opciones evaluadas**:
-1. **LayerZero**: No soporta Sonic directamente
-2. **Wormhole**: Fees muy altos, múltiples saltos
-3. **Multichain**: Descontinuado
-4. **Stargate**: Solo USDC disponible
-
-**Decisión final**: **Usar solo USDC** via Stargate
-- **Costo estimado**: 0.1% - 0.3%
-- **Tiempo promedio**: 2-5 minutos
-- **Confiabilidad**: Alta (protocolo establecido)
+Although technically functional, this bot demonstrates the **economic limitations** of current cross-chain arbitrage between Sonic and Avalanche. Operational costs frequently exceed profit opportunities, especially without efficient direct bridges.
 
 
-### **🔒 Reducción de Riesgo para Capital Grande**
+### **📋 Requested Project Context**
 
-Si este sistema manejara capital significativo:
+This bot was developed as a response to a trial project that requested:
+- USDC/USDT arbitrage between Avalanche and Sonic
+- Use of CCIP for USDC bridge
+- Optimized bridge for USDT
+- Monitoring of specific CL pools (Pharaoh/Shadow)
+- Automatic execution when profitable
+
+### **🔄 Implementation vs Requirements**
+
+#### **✅ What was implemented:**
+- ✅ **Price monitoring**: Complete cross-network comparison system
+- ✅ **Cost calculation**: Dynamic analysis of fees and profitability
+- ✅ **TypeScript + Viem architecture**: Requested technology stack
+- ✅ **Configurable threshold**: Dynamic system based on real costs
+- ✅ **Detailed logging**: Complete cost and analysis information
+- ✅ **End-to-end simulation**: Complete round-trip calculation
+- ✅ **Continuous monitoring**: Analysis every 10 seconds
+
+#### **⚠️ Necessary adaptations:**
+
+**1. USDC Bridge (Stargate vs CCIP)**
+- **Requested**: CCIP for USDC
+- **Implemented**: Stargate Protocol
+- **Reason**: CCIP is not available between Sonic and Avalanche
+- **Alternative**: Stargate is the most reliable bridge available for USDC
+
+**2. USDT Bridge**
+- **Requested**: Optimized bridge for USDT
+- **Reality**: No direct USDT bridge exists between Sonic-Avalanche
+- **Solution**: Only USDC has viable direct bridge
+- **Impact**: This makes arbitrage significantly more expensive
+
+**3. Specific Pools**
+- **Requested**: Pharaoh (Avalanche) and Shadow (Sonic)
+- **Implemented**: Available pools on each network
+- **Adaptation**: Used pools with highest available liquidity
+
+### **🛠️ Technical Decisions Made**
+
+#### **Bridge Selection for USDT**
+**Problem**: No direct USDT bridge Sonic ↔ Avalanche
+
+**Options evaluated**:
+1. **LayerZero**: Does not support Sonic directly
+2. **Wormhole**: Very high fees, multiple hops
+3. **Multichain**: Discontinued
+4. **Stargate**: Only USDC available
+
+**Final decision**: **Use USDC only** via Stargate
+- **Estimated cost**: 0.1% - 0.3%
+- **Average time**: 2-5 minutes
+- **Reliability**: High (established protocol)
+
+
+### **🔒 Risk Reduction for Large Capital**
+
+If this system handled significant capital:
 
 #### **1. Risk Management**
-- **Position sizing**: Máximo 1-2% del capital por trade
-- **Stop-loss**: Límites automáticos de pérdida
-- **Slippage protection**: Cálculo dinámico de impacto en precio
-- **MEV protection**: Uso de private mempools
+- **Position sizing**: Maximum 1-2% of capital per trade
+- **Stop-loss**: Automatic loss limits
+- **Slippage protection**: Dynamic price impact calculation
+- **MEV protection**: Use of private mempools
 
 #### **2. Infrastructure**
-- **Multiple RPC endpoints**: Redundancia de conectividad
-- **Circuit breakers**: Pausa automática en condiciones anómalas
-- **Real-time monitoring**: Alertas de sistema y performance
-- **Hot/Cold wallet separation**: Minimizar exposición
+- **Multiple RPC endpoints**: Connectivity redundancy
+- **Circuit breakers**: Automatic pause in anomalous conditions
+- **Real-time monitoring**: System and performance alerts
+- **Hot/Cold wallet separation**: Minimize exposure
 
 #### **3. Operational Security**
-- **Multi-sig wallets**: Requiere múltiples firmas
-- **Time delays**: Cooldowns para operaciones grandes
-- **Audit trails**: Logging completo de todas las operaciones
-- **Insurance**: Cobertura para smart contract risks
+- **Multi-sig wallets**: Requires multiple signatures
+- **Time delays**: Cooldowns for large operations
+- **Audit trails**: Complete logging of all operations
+- **Insurance**: Coverage for smart contract risks
 
 
 

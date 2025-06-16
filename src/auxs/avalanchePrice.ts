@@ -5,7 +5,7 @@ import { calculatePriceFromSqrtPriceX96 } from './priceCalculator.js';
 
 export async function getPriceAvalanche(): Promise<number> {
   try {
-    console.log('📊 Obteniendo precio USDT/USDC en Avalanche...');
+    console.log('📊 Getting USDT/USDC price on Avalanche...');
     
     const poolData = await avalancheClient.readContract({
       address: AVALANCHE_ADDRESSES.POOLS.USDT_USDC as `0x${string}`,
@@ -14,7 +14,7 @@ export async function getPriceAvalanche(): Promise<number> {
     });
     
     const price = calculatePriceFromSqrtPriceX96(poolData[0]);
-    console.log(`----Precio Avalanche: ${price.toFixed(6)}--`);
+    console.log(`----Avalanche Price: ${price.toFixed(6)}--`);
     
     return price;
   } catch (error) {

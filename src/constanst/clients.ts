@@ -12,18 +12,18 @@ export const sonicClient = createPublicClient({
 });
 
 export async function testConnections() {
-  console.log('-----Probando conexiones de red-----');
+  console.log('-----Testing network connections-----');
   
   try {
     const avalancheBlock = await avalancheClient.getBlockNumber();
-    console.log(`-----Avalanche conectado - Bloque actual: ${avalancheBlock}-----`);
+    console.log(`-----Avalanche connected - Current block: ${avalancheBlock}-----`);
     
     const sonicBlock = await sonicClient.getBlockNumber();
-    console.log(`-----Sonic conectado - Bloque actual: ${sonicBlock}-----`);
+    console.log(`-----Sonic connected - Current block: ${sonicBlock}-----`);
     
     return { avalanche: avalancheBlock, sonic: sonicBlock };
   } catch (error) {
-    console.error(' Error de conexión:', error);
+    console.error(' Connection error:', error);
     throw error;
   }
 }
