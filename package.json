@@ -1,0 +1,24 @@
+{
+    "name": "bot-trading",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "ts-node --esm src/main.ts",
+        "dev": "ts-node --esm --watch src/main.ts",
+        "test-fees": "ts-node --esm src/bridges/testFees.ts",
+        "fees": "ts-node --esm src/main.ts fees",
+        "monitor": "ts-node --esm src/main.ts monitor",
+        "bridge": "ts-node --esm src/main.ts bridge",
+        "arbitrage": "ts-node --esm src/main.ts arbitrage"
+    },
+    "dependencies": {
+        "@uniswap/v3-core": "^1.0.1",
+        "dotenv": "^16.3.1",
+        "viem": "^2.31.2"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.4.5"
+    }
+}
